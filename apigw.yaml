@@ -1,0 +1,19 @@
+version: '3'
+services:
+    mysql:
+      image: mysql
+      container_name: mysqldb
+      ports:
+        - "3306:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+      volumes:
+        - ./database/data:/var/lib/mysql
+        - ./database/init:/docker-entrypoint-initdb.d/:ro
+    apigw:
+      image: apigw-app:latest
+      container_name: apigw-app
+      ports:
+        - "60080:60080"
+      depends_on:
+        - mysql
