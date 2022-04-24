@@ -8,12 +8,14 @@ services:
       environment:
         - MYSQL_ROOT_PASSWORD=root
       volumes:
-        - ./database/data:/var/lib/mysql
+        - data-volume:/var/lib/mysql
         - ./database/init:/docker-entrypoint-initdb.d/:ro
     apigw:
       image: apigw-app:latest
       container_name: apigw-app
       ports:
         - "60080:60080"
-      depends_on:
+      links:
         - mysql
+volumes:
+  - data-volume:
